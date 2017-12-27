@@ -9,7 +9,7 @@
     </div>
     <div class="course">
       <div class="list">
-        <div v-for="item in course.list" class="item" @click="goDetail(item.id)">
+        <div v-for="item in course.list" class="item" @click="goDetail(item.course_type,item.id)">
           <div class="thumb">
             <img :src="uploadPath + item.thumb" alt="">
           </div>
@@ -50,8 +50,16 @@
       goBack () {
         this.$router.go(-1)
       },
-      goDetail (n) {
-        this.$router.push({path: '/tkDetail/' + n})
+      goDetail (type, id) {
+        switch (+type) {
+          case this.$store.state.courseType.tk:
+          case this.$store.state.courseType.op:
+            this.$router.push({path: '/tkDetail/' + id})
+            break
+          case this.$store.state.courseType.video:
+            this.$router.push({path: '/video/' + id})
+            break
+        }
       },
       getCourseList () {
         let that = this
