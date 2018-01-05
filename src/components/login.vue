@@ -122,11 +122,12 @@
         }
       },
       checkTel (tel) {
-        if (/1[345678](\d){9}/g.exec(tel)) {
+        /* if (/1[345678](\d){9}/g.exec(tel)) {
           this.validate.tel = 'success'
         } else {
           this.validate.tel = 'error'
-        }
+        } */
+        this.validate.tel = tel ? 'success' : 'error'
       },
       checkPwd (pwd) {
         this.validate.pwd = pwd ? 'success' : 'error'
