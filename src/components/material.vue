@@ -135,7 +135,6 @@
                 }
               }
             }
-            break
           }
           if (change === false) {
             if (hasExam !== false) {

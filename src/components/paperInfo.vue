@@ -53,7 +53,7 @@
       goExam () {
         // 如果是章节就走章节模式
         let path = ''
-        if (+this.paperInfo.chapter !== 0) {
+        if (this.paperInfo.type === '1') {
           path = '/chapter_exam/' + this.$route.params.tid + '/' + this.$route.params.pid
         } else {
           path = '/exam/' + this.$route.params.tid + '/' + this.$route.params.pid

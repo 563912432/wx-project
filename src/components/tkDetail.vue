@@ -130,7 +130,6 @@
         let data = {
           id: id,
           success: function (info) {
-            console.log(info)
             Indicator.close()
             that.courseInfo = info
           },
