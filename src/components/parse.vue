@@ -51,7 +51,15 @@
           </div>
           <div class="row">
             <mt-badge size="small" color="#57bacd">我的答案</mt-badge>
-            {{ getAnswer(exam.number) === 'A' ? '正确' : '错误' }}
+            <span v-if="getAnswer(exam.number) === 'A'">
+              正确
+            </span>
+            <span v-else-if="getAnswer(exam.number) === 'B'">
+              错误
+            </span>
+            <span v-else>
+              {{ getAnswer(exam.number) }}
+            </span>
           </div>
           <div class="row">
             <mt-badge size="small" color="#57bacd">正确答案</mt-badge>

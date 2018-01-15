@@ -64,8 +64,16 @@
           for (let i = 0; i < record.length; i++) {
             for (let j = 0; j < paper.length; j++) {
               if (record[i].no === paper[j].number) {
-                if (+paper[j].type === 1 || +paper[j].type === 5 || +paper[j].type === 8) {
+                if (+paper[j].type === 1 || +paper[j].type === 8) {
                   if (paper[j].right_answer === record[i].val) {
+                    vm.score += +paperInfo[paper[j].type].score
+                    vm.right += 1
+                  } else {
+                    errorNumber.push(record[i].no)
+                  }
+                } else if (+paper[j].type === 5) {
+                  // 多选
+                  if (Object.values(paper[j].right_answer).sort().toString() === Object.values(record[i].val).sort().toString()) {
                     vm.score += +paperInfo[paper[j].type].score
                     vm.right += 1
                   } else {
@@ -73,13 +81,11 @@
                   }
                 } else {
                   for (let m = 0; m < record[i].val.length; m++) {
-                    for (let n = 0; n < paper[j].right_answer.length; n++) {
-                      if (paper[j].right_answer[n].sort().toString().toUpperCase() === record[i].val[m].subval.split('').sort().toString().toUpperCase()) {
-                        vm.score += +paperInfo[paper[j].type].score / paper[j].title.length
-                        vm.right += 1
-                      } else {
-                        errorNumber.push(record[i].no)
-                      }
+                    if (paper[j].right_answer[m].sort().toString().toUpperCase() === record[i].val[m].subval.split('').sort().toString().toUpperCase()) {
+                      vm.score += +paperInfo[paper[j].type].score / paper[j].title.length
+                      vm.right += 1
+                    } else {
+                      errorNumber.push(record[i].no)
                     }
                   }
                 }
