@@ -10,21 +10,19 @@
           <div class="right"></div>
         </div>
         <div class="form">
-          <form action="">
-            <mt-field v-model.trim="tel" type="tel"
-                      placeholder="请输入手机号"></mt-field>
-            <mt-field v-model.trim="pwd" placeholder="请输入新密码" type="password"></mt-field>
-            <mt-field v-model.trim="code" placeholder="请输入手机验证码">
-              <mt-button type="primary" size="small" v-bind:disabled='send' @click.native.prevent="sendVerifyCode">
-                {{sendBtnText}}
-              </mt-button>
-            </mt-field>
-            <div style="margin-top: 20px">
-              <mt-button style="display: block;width: 95%;margin: 5px auto" type="primary"
-                         @click.native="modifyPwd">修改密码
-              </mt-button>
-            </div>
-          </form>
+          <mt-field v-model.trim="tel" type="tel"
+                    placeholder="请输入手机号"></mt-field>
+          <mt-field v-model.trim="pwd" placeholder="请输入新密码" type="password"></mt-field>
+          <mt-field v-model.trim="code" placeholder="请输入手机验证码">
+            <mt-button type="primary" size="small" v-bind:disabled='send' @click.native.prevent="sendVerifyCode">
+              {{sendBtnText}}
+            </mt-button>
+          </mt-field>
+          <div style="margin-top: 20px">
+            <mt-button style="display: block;width: 95%;margin: 5px auto" type="primary"
+                       @click.native="modifyPwd">修改密码
+            </mt-button>
+          </div>
         </div>
       </div>
     </div>
