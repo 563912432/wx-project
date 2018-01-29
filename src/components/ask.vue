@@ -9,243 +9,265 @@
     </div>
     <div class="list" v-if="allAsk">
       <div v-for="(item, index) in allAsk">
-        <!--  单选、多选 -->
-        <div class="row" v-if="+allTimu[item.ti_num].type === typeList.single ||
+        <div v-if="allTimu[item.ti_num]">
+          <!--  单选、多选 -->
+          <div class="row" v-if="+allTimu[item.ti_num].type === typeList.single ||
                                 +allTimu[item.ti_num].type === typeList.multi ">
-          <!-- 类型、题目 -->
-          <div class="exam-title">
+            <!-- 类型、题目 -->
+            <div class="exam-title">
             <span @click="show($event,index)">
               <mt-badge size="small" type="success">
               {{index+1}}、题目 [点击展开]
             </mt-badge>
             </span>
-          </div>
-          <div style="display: none">
-            <span v-html="allTimu[item.ti_num].title"></span>
-            <!--选项-->
-            <div class="row">
-              <p v-for="(opt, index) in allTimu[item.ti_num].option"><span style="color: #66ccff">{{az[index]}}</span>、{{opt}}</p>
             </div>
-            <!-- 正确答案 -->
-            <div class="row">
-              <mt-badge size="small" color="#57bacd">
-                正确答案
-              </mt-badge>
-              {{allTimu[item.ti_num].right_answer.toString()}}
-            </div>
-            <!-- 教师解析 -->
-            <div class="row">
-              <mt-badge size="small" color="#57bacd">名师解析</mt-badge>
-              <span v-html="allTimu[item.ti_num].parse ? allTimu[item.ti_num].parse : '暂无解析'"></span>
-            </div>
-          </div>
-          <!-- 我的提问 -->
-          <div :style="background">
-            <div class="row">
-              <mt-badge size="small" type="primary">我的提问</mt-badge>
-              <span v-html="item.ask"></span>
-              <div class="myAsk">
-                <span>提问时间：{{ formatDateTime(item.created_at) }}</span>
+            <div style="display: none">
+              <span v-html="allTimu[item.ti_num].title"></span>
+              <!--选项-->
+              <div class="row">
+                <p v-for="(opt, index) in allTimu[item.ti_num].option"><span style="color: #66ccff">{{az[index]}}</span>、{{opt}}</p>
+              </div>
+              <!-- 正确答案 -->
+              <div class="row">
+                <mt-badge size="small" color="#57bacd">
+                  正确答案
+                </mt-badge>
+                {{allTimu[item.ti_num].right_answer.toString()}}
+              </div>
+              <!-- 教师解析 -->
+              <div class="row">
+                <mt-badge size="small" color="#57bacd">名师解析</mt-badge>
+                <span v-html="allTimu[item.ti_num].parse ? allTimu[item.ti_num].parse : '暂无解析'"></span>
               </div>
             </div>
-            <!-- 老师回复 -->
-            <div class="row">
-              <mt-badge size="small" type="primary">老师回复</mt-badge>
-              <span v-html="item.reply?item.reply:'暂无回复'"></span>
-              <div v-if="item.reply" class="myAsk">
-                <span><span>课程老师</span> <span style="font-weight: bold">{{ item.admin.nickname }}</span> <span>回复于 {{ formatDateTime(item.reply_time) }}</span></span>
+            <!-- 我的提问 -->
+            <div :style="background">
+              <div class="row">
+                <mt-badge size="small" type="primary">我的提问</mt-badge>
+                <span v-html="item.ask"></span>
+                <div class="myAsk">
+                  <span>提问时间：{{ formatDateTime(item.created_at) }}</span>
+                </div>
+              </div>
+              <!-- 老师回复 -->
+              <div class="row">
+                <mt-badge size="small" type="primary">老师回复</mt-badge>
+                <span v-html="item.reply?item.reply:'暂无回复'"></span>
+                <div v-if="item.reply" class="myAsk">
+                  <span><span>课程老师</span> <span style="font-weight: bold">{{ item.admin.nickname }}</span> <span>回复于 {{ formatDateTime(item.reply_time) }}</span></span>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <!-- 判断 -->
-        <div class="row" v-if="+allTimu[item.ti_num].type === typeList.judge ">
-          <!-- 类型、题目 -->
-          <div class="exam-title">
+          <!-- 判断 -->
+          <div class="row" v-if="+allTimu[item.ti_num].type === typeList.judge ">
+            <!-- 类型、题目 -->
+            <div class="exam-title">
             <span @click="show($event,index)">
               <mt-badge size="small" type="success">
               {{index+1}}、题目 [点击展开]
             </mt-badge>
             </span>
-          </div>
-          <div style="display: none">
-            <span v-html="allTimu[item.ti_num].title"></span>
-            <!-- 正确答案 -->
-            <div class="row">
-              <mt-badge size="small" color="#57bacd">正确答案</mt-badge>
-              {{allTimu[item.ti_num].right_answer === 'A' ? '正确' : '错误'}}
             </div>
-            <!-- 教师解析 -->
-            <div class="row">
-              <mt-badge size="small" color="#57bacd">名师解析</mt-badge>
-              <span v-html="allTimu[item.ti_num].parse ? allTimu[item.ti_num].parse : '暂无解析'"></span>
-            </div>
-          </div>
-          <!-- 我的提问 -->
-          <div :style="background">
-            <div class="row">
-              <mt-badge size="small" type="primary">我的提问</mt-badge>
-              <span v-html="item.ask"></span>
-              <div class="myAsk">
-                <span>提问时间：{{ formatDateTime(item.created_at) }}</span>
+            <div style="display: none">
+              <span v-html="allTimu[item.ti_num].title"></span>
+              <!-- 正确答案 -->
+              <div class="row">
+                <mt-badge size="small" color="#57bacd">正确答案</mt-badge>
+                {{allTimu[item.ti_num].right_answer === 'A' ? '正确' : '错误'}}
+              </div>
+              <!-- 教师解析 -->
+              <div class="row">
+                <mt-badge size="small" color="#57bacd">名师解析</mt-badge>
+                <span v-html="allTimu[item.ti_num].parse ? allTimu[item.ti_num].parse : '暂无解析'"></span>
               </div>
             </div>
-            <!-- 老师回复 -->
-            <div class="row">
-              <mt-badge size="small" type="primary">老师回复</mt-badge>
-              <span v-html="item.reply?item.reply:'暂无回复'"></span>
-              <div v-if="item.reply" class="myAsk">
-                <span><span>课程老师</span> <span style="font-weight: bold">{{ item.admin.nickname }}</span> <span>回复于 {{ formatDateTime(item.reply_time) }}</span></span>
+            <!-- 我的提问 -->
+            <div :style="background">
+              <div class="row">
+                <mt-badge size="small" type="primary">我的提问</mt-badge>
+                <span v-html="item.ask"></span>
+                <div class="myAsk">
+                  <span>提问时间：{{ formatDateTime(item.created_at) }}</span>
+                </div>
+              </div>
+              <!-- 老师回复 -->
+              <div class="row">
+                <mt-badge size="small" type="primary">老师回复</mt-badge>
+                <span v-html="item.reply?item.reply:'暂无回复'"></span>
+                <div v-if="item.reply" class="myAsk">
+                  <span><span>课程老师</span> <span style="font-weight: bold">{{ item.admin.nickname }}</span> <span>回复于 {{ formatDateTime(item.reply_time) }}</span></span>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <!-- 不定项 -->
-        <div class="row" v-if="+allTimu[item.ti_num].type === typeList.material">
-          <div class="exam-title">
+          <!-- 不定项 -->
+          <div class="row" v-if="+allTimu[item.ti_num].type === typeList.material">
+            <div class="exam-title">
             <span @click="show($event,index)">
               <mt-badge size="small" type="success">
                 {{index+1}}、题目 [点击展开]
               </mt-badge>
             </span>
-          </div>
-          <div style="display: none">
-            <div v-html="allTimu[item.ti_num].material"></div>
-            <div class="exam-title" v-for="(title, title_index) in allTimu[item.ti_num].title">
-              <div v-html="title"></div>
-              <div style="margin: 5px 10px">
-                <div v-for="(opt, opt_index) in allTimu[item.ti_num].option[title_index]">
-                  <span style="color: #66ccff">{{az[opt_index]}}</span>、{{opt}}
+            </div>
+            <div style="display: none">
+              <div v-html="allTimu[item.ti_num].material"></div>
+              <div class="exam-title" v-for="(title, title_index) in allTimu[item.ti_num].title">
+                <div v-html="title"></div>
+                <div style="margin: 5px 10px">
+                  <div v-for="(opt, opt_index) in allTimu[item.ti_num].option[title_index]">
+                    <span style="color: #66ccff">{{az[opt_index]}}</span>、{{opt}}
+                  </div>
+                  <div>
+                    正确答案：{{allTimu[item.ti_num].right_answer[title_index].toString()}}
+                  </div>
+                  <div>
+                    名师解析：<span v-html="allTimu[item.ti_num].parse[title_index]"></span>
+                  </div>
                 </div>
-                <div>
-                  正确答案：{{allTimu[item.ti_num].right_answer[title_index].toString()}}
+              </div>
+            </div>
+            <!-- 我的提问 -->
+            <div :style="background">
+              <div class="row">
+                <mt-badge size="small" type="primary">我的提问</mt-badge>
+                <span v-html="item.ask"></span>
+                <div class="myAsk">
+                  <span>提问时间：{{ formatDateTime(item.created_at) }}</span>
                 </div>
-                <div>
-                  名师解析：<span v-html="allTimu[item.ti_num].parse[title_index]"></span>
+              </div>
+              <!-- 老师回复 -->
+              <div class="row">
+                <mt-badge size="small" type="primary">老师回复</mt-badge>
+                <span v-html="item.reply?item.reply:'暂无回复'"></span>
+                <div v-if="item.reply" class="myAsk">
+                  <span><span>课程老师</span> <span style="font-weight: bold">{{ item.admin.nickname }}</span> <span>回复于 {{ formatDateTime(item.reply_time) }}</span></span>
                 </div>
               </div>
             </div>
           </div>
-          <!-- 我的提问 -->
-          <div :style="background">
-            <div class="row">
-              <mt-badge size="small" type="primary">我的提问</mt-badge>
-              <span v-html="item.ask"></span>
-              <div class="myAsk">
-                <span>提问时间：{{ formatDateTime(item.created_at) }}</span>
-              </div>
-            </div>
-            <!-- 老师回复 -->
-            <div class="row">
-              <mt-badge size="small" type="primary">老师回复</mt-badge>
-              <span v-html="item.reply?item.reply:'暂无回复'"></span>
-              <div v-if="item.reply" class="myAsk">
-                <span><span>课程老师</span> <span style="font-weight: bold">{{ item.admin.nickname }}</span> <span>回复于 {{ formatDateTime(item.reply_time) }}</span></span>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!--中级：材料分析题-->
-        <div class="row" v-if="+allTimu[item.ti_num].type === typeList.jisuan_fenxi">
-          <div class="exam-title">
+          <!--中级：材料分析题-->
+          <div class="row" v-if="+allTimu[item.ti_num].type === typeList.jisuan_fenxi">
+            <div class="exam-title">
             <span @click="show($event,index)">
               <mt-badge size="small" type="success">
               {{index+1}}、题目 [点击展开]
             </mt-badge>
             </span>
-          </div>
-          <div style="display: none">
-            <span v-html="allTimu[item.ti_num].material"></span>
-            <div class="row" v-for="(title, title_index) in allTimu[item.ti_num].title">
-              <span v-html="title_index+1 + '、' + title"></span>
+            </div>
+            <div style="display: none">
+              <span v-html="allTimu[item.ti_num].material"></span>
+              <div class="row" v-for="(title, title_index) in allTimu[item.ti_num].title">
+                <span v-html="title_index+1 + '、' + title"></span>
+                <div class="row">
+                  <mt-badge size="small" color="#57bacd">名师解析</mt-badge>
+                  <span v-html="allTimu[item.ti_num].parse[title_index]"></span>
+                </div>
+              </div>
+            </div>
+            <!-- 我的提问 -->
+            <div :style="background">
               <div class="row">
-                <mt-badge size="small" color="#57bacd">名师解析</mt-badge>
-                <span v-html="allTimu[item.ti_num].parse[title_index]"></span>
+                <mt-badge size="small" type="primary">我的提问</mt-badge>
+                <span v-html="item.ask"></span>
+                <div class="myAsk">
+                  <span>提问时间：{{ formatDateTime(item.created_at) }}</span>
+                </div>
+              </div>
+              <!-- 老师回复 -->
+              <div class="row">
+                <mt-badge size="small" type="primary">老师回复</mt-badge>
+                <span v-html="item.reply?item.reply:'暂无回复'"></span>
+                <div v-if="item.reply" class="myAsk">
+                  <span><span>课程老师</span> <span style="font-weight: bold">{{ item.admin.nickname }}</span> <span>回复于 {{ formatDateTime(item.reply_time) }}</span></span>
+                </div>
               </div>
             </div>
           </div>
-          <!-- 我的提问 -->
-          <div :style="background">
-            <div class="row">
-              <mt-badge size="small" type="primary">我的提问</mt-badge>
-              <span v-html="item.ask"></span>
-              <div class="myAsk">
-                <span>提问时间：{{ formatDateTime(item.created_at) }}</span>
-              </div>
-            </div>
-            <!-- 老师回复 -->
-            <div class="row">
-              <mt-badge size="small" type="primary">老师回复</mt-badge>
-              <span v-html="item.reply?item.reply:'暂无回复'"></span>
-              <div v-if="item.reply" class="myAsk">
-                <span><span>课程老师</span> <span style="font-weight: bold">{{ item.admin.nickname }}</span> <span>回复于 {{ formatDateTime(item.reply_time) }}</span></span>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!--中级 综合-->
-        <div class="row" v-if="+allTimu[item.ti_num].type === typeList.zjjd ||
+          <!--中级 综合-->
+          <div class="row" v-if="+allTimu[item.ti_num].type === typeList.zjjd ||
                                 +allTimu[item.ti_num].type === typeList.jzanli ||
                                 +allTimu[item.ti_num].type === typeList.zh ||
                                 +allTimu[item.ti_num].type === typeList.huodongsheji ||
                                 +allTimu[item.ti_num].type === typeList.jiaoxuesheji ||
                                 +allTimu[item.ti_num].type === typeList.cailiaofenxi ">
-          <div class="exam-title">
+            <div class="exam-title">
             <span @click="show($event,index)">
               <mt-badge size="small" type="success">
                 {{index+1}}、题目 [点击展开]
               </mt-badge>
             </span>
+            </div>
+            <div style="display: none">
+              <span v-html="allTimu[item.ti_num].material"></span>
+              <div class="row" v-for="(title, title_index) in allTimu[item.ti_num].title">
+                <span v-html="title_index+1 + '、' + title"></span>
+                <div class="row">
+                  <mt-badge size="small" color="#57bacd">名师解析</mt-badge>
+                  <span v-html="allTimu[item.ti_num].parse[title_index]"></span>
+                </div>
+              </div>
+            </div>
+            <!-- 我的提问 -->
+            <div :style="background">
+              <div class="row">
+                <mt-badge size="small" type="primary">我的提问</mt-badge>
+                <span v-html="item.ask"></span>
+                <div class="myAsk">
+                  <span>提问时间：{{ formatDateTime(item.created_at) }}</span>
+                </div>
+              </div>
+              <!-- 老师回复 -->
+              <div class="row">
+                <mt-badge size="small" type="primary">老师回复</mt-badge>
+                <span v-html="item.reply?item.reply:'暂无回复'"></span>
+                <div v-if="item.reply" class="myAsk">
+                  <span><span>课程老师</span> <span style="font-weight: bold">{{ item.admin.nickname }}</span> <span>回复于 {{ formatDateTime(item.reply_time) }}</span></span>
+                </div>
+              </div>
+            </div>
           </div>
-          <div style="display: none">
-            <span v-html="allTimu[item.ti_num].material"></span>
-            <div class="row" v-for="(title, title_index) in allTimu[item.ti_num].title">
-              <span v-html="title_index+1 + '、' + title"></span>
+          <!-- 简答 -->
+          <div class="row" v-if=" +allTimu[item.ti_num].type === typeList.jianda ">
+            <div class="exam-title">
+            <span @click="show($event,index)">
+              <mt-badge size="small" type="success">
+                {{index+1}}、题目 [点击展开]
+              </mt-badge>
+            </span>
+            </div>
+            <div style="display: none">
+              <span v-html="allTimu[item.ti_num].title"></span>
               <div class="row">
                 <mt-badge size="small" color="#57bacd">名师解析</mt-badge>
-                <span v-html="allTimu[item.ti_num].parse[title_index]"></span>
+                <span v-html="allTimu[item.ti_num].parse"></span>
               </div>
             </div>
-          </div>
-          <!-- 我的提问 -->
-          <div :style="background">
-            <div class="row">
-              <mt-badge size="small" type="primary">我的提问</mt-badge>
-              <span v-html="item.ask"></span>
-              <div class="myAsk">
-                <span>提问时间：{{ formatDateTime(item.created_at) }}</span>
+            <!-- 我的提问 -->
+            <div :style="background">
+              <div class="row">
+                <mt-badge size="small" type="primary">我的提问</mt-badge>
+                <span v-html="item.ask"></span>
+                <div class="myAsk">
+                  <span>提问时间：{{ formatDateTime(item.created_at) }}</span>
+                </div>
               </div>
-            </div>
-            <!-- 老师回复 -->
-            <div class="row">
-              <mt-badge size="small" type="primary">老师回复</mt-badge>
-              <span v-html="item.reply?item.reply:'暂无回复'"></span>
-              <div v-if="item.reply" class="myAsk">
-                <span><span>课程老师</span> <span style="font-weight: bold">{{ item.admin.nickname }}</span> <span>回复于 {{ formatDateTime(item.reply_time) }}</span></span>
+              <!-- 老师回复 -->
+              <div class="row">
+                <mt-badge size="small" type="primary">老师回复</mt-badge>
+                <span v-html="item.reply?item.reply:'暂无回复'"></span>
+                <div v-if="item.reply" class="myAsk">
+                  <span><span>课程老师</span> <span style="font-weight: bold">{{ item.admin.nickname }}</span> <span>回复于 {{ formatDateTime(item.reply_time) }}</span></span>
+                </div>
               </div>
             </div>
           </div>
         </div>
-        <!-- 简答 -->
-        <div class="row" v-if=" +allTimu[item.ti_num].type === typeList.jianda ">
-          <div class="exam-title">
-            <span @click="show($event,index)">
-              <mt-badge size="small" type="success">
-                {{index+1}}、题目 [点击展开]
-              </mt-badge>
-            </span>
-          </div>
-          <div style="display: none">
-            <span v-html="allTimu[item.ti_num].title"></span>
-            <div class="row">
-              <mt-badge size="small" color="#57bacd">名师解析</mt-badge>
-              <span v-html="allTimu[item.ti_num].parse"></span>
-            </div>
-          </div>
+        <div v-else>
           <!-- 我的提问 -->
           <div :style="background">
             <div class="row">
-              <mt-badge size="small" type="primary">我的提问</mt-badge>
+              <mt-badge size="small" type="primary">{{ index+1 }}、我的提问</mt-badge>
               <span v-html="item.ask"></span>
               <div class="myAsk">
                 <span>提问时间：{{ formatDateTime(item.created_at) }}</span>
@@ -301,16 +323,18 @@
         }
       }
     },
-    created () {
+    mounted () {
       this.getExamTypeMap()
       // 答疑内容
-      this.allAsk = this.askInfo.info
-      this.allTimu = this.askInfo.ti
-      if (!this.allAsk || this.allAsk.length < 0) {
+      if (!this.askInfo) {
         Toast({
           message: '暂无答疑',
           duration: 1500
         })
+      } else {
+        this.allAsk = this.askInfo.info
+        console.log(this.askInfo)
+        this.allTimu = this.askInfo.ti
       }
     },
     methods: {
