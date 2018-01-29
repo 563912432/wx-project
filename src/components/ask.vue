@@ -333,7 +333,6 @@
         })
       } else {
         this.allAsk = this.askInfo.info
-        console.log(this.askInfo)
         this.allTimu = this.askInfo.ti
       }
     },
