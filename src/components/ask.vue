@@ -267,7 +267,7 @@
           <!-- 我的提问 -->
           <div :style="background">
             <div class="row">
-              <mt-badge size="small" type="primary">{{ index+1 }}}我的提问</mt-badge>
+              <mt-badge size="small" type="primary">{{ index+1 }}、我的提问</mt-badge>
               <span v-html="item.ask"></span>
               <div class="myAsk">
                 <span>提问时间：{{ formatDateTime(item.created_at) }}</span>
@@ -326,13 +326,14 @@
     created () {
       this.getExamTypeMap()
       // 答疑内容
-      this.allAsk = this.askInfo.info
-      this.allTimu = this.askInfo.ti
-      if (!this.allAsk || this.allAsk.length < 0) {
+      if (!this.askInfo) {
         Toast({
           message: '暂无答疑',
           duration: 1500
         })
+      } else {
+        this.allAsk = this.askInfo.info
+        this.allTimu = this.askInfo.ti
       }
     },
     methods: {
