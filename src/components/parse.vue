@@ -8,7 +8,7 @@
       <div class="right"></div>
     </div>
     <div class="list" v-if="allExam">
-      <div v-for="(exam, ind) in allExam" style="flex: 1;">
+      <div class="list-for" v-for="(exam, ind) in allExam">
         <div :class="ind % 2 === 0 ? odd : even" v-if="+exam.type === typeList.single ||
                                                         +exam.type === typeList.single_five ||
                                                         +exam.type === typeList.zuhexuanze ||
@@ -434,8 +434,6 @@
       padding 0 5px 0
       font-size 14px
       flex 1
-      display flex
-      flex-direction column
       background #fff
       overflow auto
       color #333
