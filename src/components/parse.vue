@@ -434,8 +434,6 @@
       padding 0 5px 0
       font-size 14px
       flex 1
-      display flex
-      flex-direction column
       background #fff
       overflow auto
       color #333
