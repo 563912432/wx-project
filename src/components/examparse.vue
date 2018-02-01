@@ -5,23 +5,30 @@
       <div class="parse-info" @click="setVisible">
         <h2>名师解析</h2>
         <div class="info">
-          <div>正确答案：{{right_answer ? right_answer : '见解析'}}</div>
+          <div>
+            <span>正确答案：{{right_answer ? right_answer : '见解析'}}</span>
+            <mt-button v-if="video" @click.stop="videoShow" type="primary" size="small"　style="margin-left:10px">视频解析</mt-button>
+          </div>
           <div v-html="parse"></div>
         </div>
       </div>
     </mt-popup>
+    <!-- 视频解析 -->
+    <parseVideo :videoCode="video"></parseVideo>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
   import {Popup} from 'mint-ui'
+  import parseVideo from '@/components/parseVideo'
   import {mapState} from 'vuex'
   export default {
     name: 'card',
     components: {
-      Popup
+      Popup,
+      parseVideo
     },
-    props: ['parse', 'answer', 'index', 'examType'],
+    props: ['parse', 'answer', 'index', 'examType', 'video'],
     computed: {
       ...mapState(['typeList']),
       isShow: {
@@ -49,6 +56,9 @@
     methods: {
       setVisible () {
         this.$store.commit('setExamParse', false)
+      },
+      videoShow () {
+        this.$store.commit('setParseVideo', true)
       }
     }
   }

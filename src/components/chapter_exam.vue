@@ -74,7 +74,7 @@
       <!--综合分析选择题-->
       <div v-else-if="+curr.type === typeList.zhfxxz">
         <zhfxxz :exam="curr" :index="subExamInfo.index" :len="subExamInfo.len"
-                  :orientation="orientation" :random="random"></zhfxxz>
+                :orientation="orientation" :random="random"></zhfxxz>
       </div>
     </div>
 
@@ -108,10 +108,10 @@
                       +curr.type !== typeList.huodongsheji &&
                       +curr.type !== typeList.zhfxxz &&
                       +curr.type !== typeList.jisuan_fenxi" :parse="curr.parse" :answer="curr.right_answer" :examType="curr.type"
-               :index="subExamInfo.index"
+               :index="subExamInfo.index" :video="curr.video"
                v-bind:exam_index="exam_index" popup-transition="popup-fade"></examparse>
     <examparse v-else :parse="curr.parse[subExamInfo.index]" :answer="curr.right_answer" :examType="curr.type"
-               :index="subExamInfo.index"
+               :index="subExamInfo.index" :video="curr.video"
                v-bind:exam_index="exam_index" popup-transition="popup-fade"></examparse>
     <!--我的答疑-->
     <myAsk v-bind:number="curr.number"></myAsk>
@@ -470,15 +470,15 @@
         this.collect = this.curr.collect
         this.type = this.curr.type
         if (+this.type === this.typeList.material ||
-            +this.type === this.typeList.jisuan_fenxi ||
-            +this.type === this.typeList.zh ||
-            +this.type === this.typeList.zjjd ||
-            +this.type === this.typeList.cailiaofenxi ||
-            +this.type === this.typeList.jiaoxuesheji ||
-            +this.type === this.typeList.huodongsheji ||
-            +this.type === this.typeList.pw ||
-            +this.type === this.typeList.zhfxxz ||
-            +this.type === this.typeList.jzanli) {
+          +this.type === this.typeList.jisuan_fenxi ||
+          +this.type === this.typeList.zh ||
+          +this.type === this.typeList.zjjd ||
+          +this.type === this.typeList.cailiaofenxi ||
+          +this.type === this.typeList.jiaoxuesheji ||
+          +this.type === this.typeList.huodongsheji ||
+          +this.type === this.typeList.pw ||
+          +this.type === this.typeList.zhfxxz ||
+          +this.type === this.typeList.jzanli) {
           if (this.orientation) {
             this.subExamInfo.index = this.curr['title'].length - 1
           } else {

@@ -72,6 +72,8 @@ const store = new Vuex.Store({
       examCard: false,
       // 解析面板状态
       examParse: false,
+      // 视频解析状态（cs）
+      parseVideo: false,
       // 当前题号
       curr_index: 0,
       // 考试剩余时间
@@ -204,6 +206,9 @@ const store = new Vuex.Store({
     setExamParse (state, bool) {
       state.examState.examParse = bool
     },
+    setParseVideo (state, bool) {
+      state.examState.parseVideo = bool
+    },
     setExamCurrIndex (state, index) {
       state.examState.curr_index = index
     },
@@ -212,6 +217,7 @@ const store = new Vuex.Store({
       state.examState.leftTime = 0
       state.examState.examCard = false
       state.examState.examParse = false
+      state.examState.parseVideo = false
       state.examState.userAnswer = []
       state.examState.examAsk = false
     },
