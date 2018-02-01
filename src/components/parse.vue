@@ -8,7 +8,7 @@
       <div class="right"></div>
     </div>
     <div class="list" v-if="allExam">
-      <div v-for="(exam, ind) in allExam">
+      <div v-for="(exam, ind) in allExam" style="flex: 1;">
         <div :class="ind % 2 === 0 ? odd : even" v-if="+exam.type === typeList.single ||
                                                         +exam.type === typeList.single_five ||
                                                         +exam.type === typeList.zuhexuanze ||
@@ -40,6 +40,11 @@
             <mt-badge size="small" color="#57bacd">名师解析</mt-badge>
             <span v-html="exam.parse ? exam.parse : '暂无解析'"></span>
           </div>
+          <div v-if="exam.video" class="row">
+            <mt-badge size="small" type="primary">
+              <span @click="showVideo(exam.video)">视频解析</span>
+            </mt-badge>
+          </div>
         </div>
         <!--判断题-->
         <div class="item" v-if="+exam.type === typeList.judge">
@@ -69,6 +74,11 @@
             <mt-badge size="small" color="#57bacd">名师解析</mt-badge>
             <span v-html="exam.parse ? exam.parse : '暂无解析'"></span>
           </div>
+          <div v-if="exam.video" class="row">
+            <mt-badge size="small" type="primary">
+              <span @click="showVideo(exam.video)">视频解析</span>
+            </mt-badge>
+          </div>
         </div>
         <!--不定向选择题-->
         <div class="item" v-if="+exam.type === typeList.material">
@@ -84,14 +94,22 @@
               <div v-for="(opt, opt_index) in exam.option[title_index]">
                 <span style="color: #66ccff">{{az[opt_index]}}</span>、{{opt}}
               </div>
-              <div>
-                您的答案：{{getAnswer([exam.number, title_index])}}
+              <div class="row">
+                <mt-badge size="small" color="#57bacd">我的答案</mt-badge>
+                {{getAnswer([exam.number, title_index])}}
               </div>
-              <div>
-                正确答案：{{exam.right_answer[title_index].toString()}}
+              <div class="row">
+                <mt-badge size="small" color="#57bacd">正确答案</mt-badge>
+                {{exam.right_answer[title_index].toString()}}
               </div>
-              <div>
-                名师解析：<span v-html="exam.parse[title_index]"></span>
+              <div class="row">
+                <mt-badge size="small" color="#57bacd">名师解析</mt-badge>
+                <span v-html="exam.parse[title_index]"></span>
+              </div>
+              <div v-if="exam.video" class="row">
+                <mt-badge size="small" type="primary">
+                  <span @click="showVideo(exam.video)">视频解析</span>
+                </mt-badge>
               </div>
             </div>
           </div>
@@ -109,6 +127,11 @@
               <mt-badge size="small" color="#57bacd">名师解析</mt-badge>
               <span v-html="exam.parse[title_index]"></span>
             </div>
+          </div>
+          <div v-if="exam.video" class="row">
+            <mt-badge size="small" type="primary">
+              <span @click="showVideo(exam.video)">视频解析</span>
+            </mt-badge>
           </div>
         </div>
         <!--配伍题-->
@@ -137,6 +160,11 @@
                 <mt-badge size="small" color="#57bacd">名师解析</mt-badge>
                 <span v-html="exam.parse"></span>
               </div>
+              <div v-if="exam.video" class="row">
+                <mt-badge size="small" type="primary">
+                  <span @click="showVideo(exam.video)">视频解析</span>
+                </mt-badge>
+              </div>
             </div>
           </div>
         </div>
@@ -161,6 +189,11 @@
               <span v-html="exam.parse[title_index]"></span>
             </div>
           </div>
+          <div v-if="exam.video" class="row">
+            <mt-badge size="small" type="primary">
+              <span @click="showVideo(exam.video)">视频解析</span>
+            </mt-badge>
+          </div>
         </div>
         <!--辨析题-->
         <div class="item" v-if="+exam.type === typeList.bianxi ||
@@ -176,6 +209,11 @@
           <div class="row">
             <mt-badge size="small" color="#57bacd">名师解析</mt-badge>
             <span v-html="exam.parse"></span>
+          </div>
+          <div v-if="exam.video" class="row">
+            <mt-badge size="small" type="primary">
+              <span @click="showVideo(exam.video)">视频解析</span>
+            </mt-badge>
           </div>
         </div>
         <!--综合分析选择题-->
@@ -200,17 +238,23 @@
               </div>
               <div class="row">
                 <mt-badge size="small" color="#57bacd">正确答案</mt-badge>
-                {{exam.right_answer[title_index].toString()}}
+                {exam.right_answer[title_index].toString()}}
               </div>
               <div class="row">
                 <mt-badge size="small" color="#57bacd">名师解析</mt-badge>
                 <span v-html="exam.parse[title_index]"></span>
+              </div>
+              <div v-if="exam.video" class="row">
+                <mt-badge size="small" type="primary">
+                  <span @click="showVideo(exam.video)">视频解析</span>
+                </mt-badge>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
+    <parseVideo :videoCode='videoCode'></parseVideo>
   </div>
 </template>
 
@@ -218,16 +262,18 @@
   import {COMMON} from '../mixins'
   import {Toast, Indicator} from 'mint-ui'
   import {mapState} from 'vuex'
+  import parseVideo from '@/components/parseVideo'
   export default {
     mixins: [COMMON],
     components: {
-      Toast
+      Toast, parseVideo
     },
     computed: {
       ...mapState(['typeList'])
     },
     data () {
       return {
+        videoCode: null,
         examTypeMap: [],
         paperName: this.$store.state.paperInfo.title,
         paperInfo: this.$store.state.paperInfo.info,
@@ -267,6 +313,12 @@
     methods: {
       goBack () {
         this.$router.push({path: '/tkDetail/' + this.$store.state.paperInfo.course_id})
+      },
+      showVideo (vid) {
+        this.videoCode = vid
+        if (this.videoCode) {
+          this.$store.commit('setParseVideo', true)
+        }
       },
       // 获取试题题型映射表
       getExamTypeMap () {

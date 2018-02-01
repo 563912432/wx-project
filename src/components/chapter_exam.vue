@@ -108,10 +108,10 @@
                       +curr.type !== typeList.huodongsheji &&
                       +curr.type !== typeList.zhfxxz &&
                       +curr.type !== typeList.jisuan_fenxi" :parse="curr.parse" :answer="curr.right_answer" :examType="curr.type"
-               :index="subExamInfo.index"
+               :index="subExamInfo.index" :video="curr.video"
                v-bind:exam_index="exam_index" popup-transition="popup-fade"></examparse>
     <examparse v-else :parse="curr.parse[subExamInfo.index]" :answer="curr.right_answer" :examType="curr.type"
-               :index="subExamInfo.index"
+               :index="subExamInfo.index" :video="curr.video"
                v-bind:exam_index="exam_index" popup-transition="popup-fade"></examparse>
     <!--我的答疑-->
     <myAsk v-bind:number="curr.number"></myAsk>

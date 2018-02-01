@@ -97,11 +97,11 @@
                       +curr.type !== typeList.huodongsheji &&
                       +curr.type !== typeList.zhfxxz &&
                       +curr.type !== typeList.jisuan_fenxi" :parse="curr.parse" :answer="curr.right_answer"
-               :examType="curr.type"
+               :examType="curr.type" :video="curr.video"
                :index="subExamInfo.index"
                v-bind:exam_index="exam_index" popup-transition="popup-fade"></examparse>
     <examparse v-else :parse="curr.parse[subExamInfo.index]" :answer="curr.right_answer" :examType="curr.type"
-               :index="subExamInfo.index"
+               :index="subExamInfo.index" :video="curr.video"
                v-bind:exam_index="exam_index" popup-transition="popup-fade"></examparse>
     <!--我的答疑-->
     <myAsk v-bind:number="curr.number"></myAsk>
@@ -566,11 +566,13 @@
         small
           color #999
     .control-tools
+      margin-top 1px
       height 50px
       display flex
       flex-direction row
       justify-content center
       align-items center
+      box-sizing border-box
       background #fff
       font-size 14px
       span
@@ -581,6 +583,6 @@
         align-items center
         .icon
           font-size 14px
-          margin-right 5px
+          margin-right 2px
           color #0086b3
 </style>
