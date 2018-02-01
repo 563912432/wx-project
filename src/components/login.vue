@@ -12,7 +12,7 @@
         <div class="form">
           <form>
             <mt-field v-model.trim="tel" type="tel" :state="validate.tel"
-                      placeholder="请输入账号测试"></mt-field>
+                      placeholder="请输入账号"></mt-field>
             <mt-field v-model.trim="pwd" type="password" :state="validate.pwd"
                       placeholder="请输入密码"></mt-field>
             <div style="margin-top: 20px">
