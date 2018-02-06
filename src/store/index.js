@@ -14,7 +14,7 @@ const store = new Vuex.Store({
     chapter: 1,
     simulate: 2,
     vip: 3,
-    host: 'http://192.168.1.18/',
+    host: '/',
     courseType: {
       'video': 2,
       'op': 3,
