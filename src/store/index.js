@@ -91,7 +91,9 @@ const store = new Vuex.Store({
     // 提问内容
     askContent: '',
     // 是否勾选答疑
-    isCheckAsk: false
+    isCheckAsk: false,
+    // 选择的课程是否是图书配送版题库[默认不是]
+    isBuyBookToSend: false
   },
   getters: {
     createUUID () {
@@ -163,6 +165,9 @@ const store = new Vuex.Store({
     },
     isCheckAsk (state) {
       return state.isCheckAsk
+    },
+    isBuyBookToSend (state) {
+      return state.isBuyBookToSend
     }
   },
   mutations: {
@@ -245,6 +250,9 @@ const store = new Vuex.Store({
     },
     setIsCheckAsk (state, data) {
       state.isCheckAsk = data
+    },
+    setIsBuyBookToSend (state, data) {
+      state.isBuyBookToSend = data
     }
   },
   actions: {
@@ -663,6 +671,20 @@ const store = new Vuex.Store({
         }
       }).catch(() => {
         data.error('连接超时')
+      })
+    },
+    // 获取是否是图书配送版题库
+    isBuyBookToSend ({commit, state}, data) {
+      if (!state.userInfo || !state.userInfo.id) {
+        return
+      }
+      Vue.http.post(state.host + 'Api/MyCourse/isBuyToSend', data.params, {
+        timeout: 5000,
+        emulateJSON: true
+      }).then(response => {
+        data.callback(response.data)
+      }).catch((response) => {
+        console.log(response)
       })
     }
   }

@@ -247,6 +247,15 @@
                 }
                 that.exam = returnData.allExamInfo
                 that.exam_length = returnData.allExamInfo.length
+                // 判断是否是图书配送版，是的话
+                let isBuyBookToSend = that.$store.state.isBuyBookToSend
+                if (isBuyBookToSend) {
+                  // 是 取40%
+                } else {
+                  // 取全部
+                  // 测试取40%
+                  console.log(that.exam)
+                }
                 break
               case -1:
                 instance = Toast({

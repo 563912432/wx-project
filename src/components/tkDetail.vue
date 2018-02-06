@@ -132,6 +132,8 @@
           success: function (info) {
             Indicator.close()
             that.courseInfo = info
+            console.log(that.$store.state.userInfo)
+            that.setIsBuyBookToSend(that.courseInfo.id, that.$store.state.userInfo.id)
           },
           error: function (error) {
             Indicator.close()
@@ -148,6 +150,37 @@
           }
         }
         this.$store.dispatch('getCourseInfoById', data)
+      },
+      // 保存是否是图书配送版的题库【初级实务+经济法 => 没有开通考前密卷 + 答疑增值服务的】
+      setIsBuyBookToSend (courseId, uid) {
+        let that = this
+        if (parseInt(courseId) === 21 || parseInt(courseId) === 22) {
+          let signatureObj = that.createSignature
+          let data = {
+            params: {
+              cid: courseId,
+              uid: uid,
+              random: signatureObj.random,
+              signature: signatureObj.signature
+            },
+            callback: function (res) {
+              switch (res.status) {
+                case 1:
+                  that.$store.commit('setIsBuyBookToSend', true)
+                  break
+                case 0:
+                  that.$store.commit('setIsBuyBookToSend', false)
+                  break
+                default:
+                  console.log('操作失败')
+                  break
+              }
+            }
+          }
+          this.$store.dispatch('isBuyBookToSend', data)
+        } else {
+          console.log('不是')
+        }
       },
       getMyCourse () {
         let that = this
