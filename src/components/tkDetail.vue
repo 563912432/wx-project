@@ -7,7 +7,7 @@
       <h1><span>
         {{courseInfo.title}}
       </span></h1>
-      <div v-if="courseInfo.info" v-html="courseInfo.info.substr(0,80)">...</div>
+      <div v-if="courseInfo.info" v-html="courseInfo.brief.substr(0,80)">...</div>
       <div v-else>暂无简介</div>
       <img v-if="courseInfo.thumb" :src="uploadPath + courseInfo.thumb" :alt="courseInfo.title">
     </div>
@@ -15,7 +15,7 @@
       <h1><span>
         {{courseInfo.title}}
       </span></h1>
-      <div v-if="courseInfo.info" v-html="courseInfo.info.substr(0,80)">...</div>
+      <div v-if="courseInfo.info" v-html="courseInfo.brief.substr(0,80)">...</div>
       <div v-else>暂无简介</div>
       <div class="remark">注意：此系统需要在PC端进行使用</div>
       <img v-if="courseInfo.thumb" :src="uploadPath + courseInfo.thumb" :alt="courseInfo.title">
