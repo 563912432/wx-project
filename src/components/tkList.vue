@@ -53,12 +53,13 @@
       goDetail (type, id) {
         switch (+type) {
           case this.$store.state.courseType.tk:
-          case this.$store.state.courseType.op:
             this.$router.push({path: '/tkDetail/' + id})
             break
           case this.$store.state.courseType.video:
             this.$router.push({path: '/video/' + id})
             break
+          default :
+            this.$router.push({path: '/sc/' + id})
         }
       },
       getCourseList () {

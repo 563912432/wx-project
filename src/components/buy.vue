@@ -7,7 +7,7 @@
       <img class="course-bg" :src="courseInfo ? uploadPath + courseInfo.thumb : ''" alt="">
       <div class="info">
         <div class="c-title">{{courseInfo?courseInfo.title:''}}</div>
-        <div class="c-summary" v-html="courseInfo?courseInfo.info:''"></div>
+        <div class="c-summary" v-html="courseInfo?courseInfo.brief:''"></div>
         <div class="card-open">
           <div v-if="isFree" style="text-align: center">
             <mt-button type="primary" style="width: 100px;height:48px;border-radius: 0;padding:0"

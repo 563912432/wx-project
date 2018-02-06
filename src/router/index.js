@@ -232,6 +232,21 @@ export default new Router({
         requireAuth: true
       },
       component: require('@/components/ask')
+    },
+    {
+      path: '/news/',
+      name: 'news',
+      component: require('@/components/news')
+    },
+    {
+      path: '/news/:id',
+      name: 'newsDetail',
+      component: require('@/components/newsDetail')
+    },
+    {
+      path: '/sc/:id',
+      name: 'scDetail',
+      component: require('@/components/scDetail')
     }
   ]
 })

@@ -3,7 +3,7 @@
     <div class="head" @click="goBack">
       <i class="icon iconfont icon-fanhui1"></i>
     </div>
-    <div v-if="+courseInfo.course_type !== courseType.op" class="courseInfo">
+    <div v-if="+courseInfo.course_type === courseType.tk" class="courseInfo">
       <h1><span>
         {{courseInfo.title}}
       </span></h1>
@@ -20,7 +20,7 @@
       <div class="remark">注意：此系统需要在PC端进行使用</div>
       <img v-if="courseInfo.thumb" :src="uploadPath + courseInfo.thumb" :alt="courseInfo.title">
     </div>
-    <div v-if="+courseInfo.course_type !== courseType.op" class="nav">
+    <div v-if="+courseInfo.course_type === courseType.tk" class="nav">
       <div class="row">
         <span @click="goRouter(1)">
           <i class="icon iconfont icon-zhuantilianxi"></i>

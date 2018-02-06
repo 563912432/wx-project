@@ -14,7 +14,7 @@ const store = new Vuex.Store({
     chapter: 1,
     simulate: 2,
     vip: 3,
-    host: '/',
+    host: 'http://192.168.1.18/',
     courseType: {
       'video': 2,
       'op': 3,
@@ -621,6 +621,48 @@ const store = new Vuex.Store({
         data.callback(response.data)
       }).catch((response) => {
         console.log(response)
+      })
+    },
+    // 获取课程课程列表
+    getNewsList ({commit, state}, data) {
+      Vue.http.get(state.host + 'Api/News/getNewsList/p/' + data.p, {timeout: 5000}).then(response => {
+        if (response.ok && response.body.status === 1) {
+          data.success(JSON.parse(response.body.info))
+        } else if (response.body.status === -1) {
+          commit('logout')
+        } else {
+          data.error(response.body.info)
+        }
+      }).catch(() => {
+        data.error('连接超时')
+      })
+    },
+    // 获取课程课程列表
+    getNewsDetail ({commit, state}, data) {
+      Vue.http.get(state.host + 'Api/News/getNewsDetail/id/' + data.id, {timeout: 5000}).then(response => {
+        if (response.ok && response.body.status === 1) {
+          data.success(JSON.parse(response.body.info))
+        } else if (response.body.status === -1) {
+          commit('logout')
+        } else {
+          data.error(response.body.info)
+        }
+      }).catch(() => {
+        data.error('连接超时')
+      })
+    },
+    // 获取课程课程列表
+    getIndexData ({commit, state}, data) {
+      Vue.http.get(state.host + 'Api/Index/getIndexData', {timeout: 5000}).then(response => {
+        if (response.ok && response.body.status === 1) {
+          data.success(JSON.parse(response.body.info))
+        } else if (response.body.status === -1) {
+          commit('logout')
+        } else {
+          data.error(response.body.info)
+        }
+      }).catch(() => {
+        data.error('连接超时')
       })
     }
   }

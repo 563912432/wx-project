@@ -1,8 +1,8 @@
 <template>
   <div class="tk">
-    <div class="wrapper">
+    <div class="wrapper" id="tkwrap" ref="tkwrap">
       <div class="list" v-for="course in courseList">
-        <h3>{{course.title}}</h3>
+        <h3 :id="'course'+course.id" :ref="'course'+course.id">{{course.title}}</h3>
         <div class="list-items">
           <div class="item" v-for="item in course._" @click="goRouter(item.id)">
             <img :src="uploadPath + item.thumb" :alt="item.title">
@@ -70,6 +70,16 @@
       } else {
         this.courseList = this.$store.state.courseList
       }
+    },
+    mounted () {
+      let cid = this.$route.query.cid
+      let that = this
+      setTimeout(function () {
+        if (cid && that.$refs['course' + cid]) {
+          let scrollContent = that.$refs['course' + cid][0]
+          scrollContent.scrollIntoView()
+        }
+      }, 500)
     }
   }
 </script>
@@ -86,6 +96,7 @@
     .wrapper
       flex 1
       overflow auto
+      scroll-behavior smooth
       .list
         display flex
         flex-direction column
