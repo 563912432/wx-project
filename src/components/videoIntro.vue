@@ -32,9 +32,11 @@
             <div class="list-item" v-for="item in list" :key="item.chapter">
               <!--div class="chpt-name">{{item.chapter_name}}</div-->
               <div class="part" v-for="n in item.video">
-                <i class="icon iconfont icon-bofang1"></i>
-                <span v-if="n.for_guest=='1'" @click.self="play" :code="n.code">{{n.title}} <span class="mint-badge is-warning is-size-small" style="line-height:14px;">可试看</span></span>
-                <span v-else>{{n.title}}</span>
+                <i v-if="n.for_guest=='1'" class="icon iconfont icon-bofang1"></i>
+                <div v-else style="width: 25px;text-align: center;"><i class="round">●</i></div>
+                <span v-if="n.for_guest=='1'" @click.self="play" :code="n.code" class="vtitle">{{n.title}}</span>
+                <span v-else class="vtitle">{{n.title}}</span>
+                <span v-if="n.for_guest=='1'" class="mint-badge is-warning is-size-small vbadge">试看</span>
               </div>
             </div>
           </mt-tab-container-item>
@@ -158,6 +160,14 @@
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
+  .round
+    width 16px
+    height 16px
+    display inline-block
+    font-size 14px
+    line-heigth 16px
+    text-align center
+    text-decoration none
   .container
     position absolute
     top 0
@@ -276,7 +286,7 @@
     .detail
       background #fff
       flex 1
-      padding 5px 20px
+      padding 5px 10px
       line-height 28px
       overflow auto
       .list-item
@@ -307,11 +317,16 @@
           height 35px
           font-size 14px
         .icon
-          width 50px
-          padding-left 15px
+          flex 0 0 25px
+          padding-left 0px
           text-align: center
-        span
-          flex 1
+        .vtitle
+          flex 1 1 0
+          text-overflow ellipsis
+          overflow hidden
+        .vbadge
+          line-height 14px
+          vertical-align middle
     .bottom
       margin-top 5px
       height 50px
