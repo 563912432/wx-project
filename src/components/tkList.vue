@@ -52,14 +52,11 @@
       },
       goDetail (type, id) {
         switch (+type) {
-          case this.$store.state.courseType.tk:
-            this.$router.push({path: '/tkDetail/' + id})
-            break
           case this.$store.state.courseType.video:
-            this.$router.push({path: '/video/' + id})
+            this.$router.push({path: '/videoIntro/' + id})
             break
           default :
-            this.$router.push({path: '/sc/' + id})
+            this.$router.push({path: '/tkIntro/' + id})
         }
       },
       getCourseList () {

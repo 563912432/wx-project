@@ -23,7 +23,12 @@
         <div class="detail_body" v-html="courseInfo.info"></div>
       </div>
       <div class="bottom">
-        请在PC端体验实训课程
+        <div v-if="+courseInfo.course_type === courseType.tk" class="tk" @click="goDetail(courseInfo.course_type,courseInfo.id)">
+          点击进入
+        </div>
+        <div v-else class="op">
+          请在PC端体验实训课程
+        </div>
       </div>
     </div>
   </div>
@@ -35,7 +40,7 @@
   import {mapGetters} from 'vuex'
   export default {
     mixins: [COMMON],
-    name: 'scDetail',
+    name: 'tkIntro',
     data () {
       return {
         courseInfo: []
@@ -43,46 +48,9 @@
     },
     created () {
       this.$store.commit('setSelected', '2')
-      if (!this.$store.state.userInfo || !this.$store.state.userInfo.id) {
-        this.$router.push({path: '/login'})
-      } else {
-        this.getMyCourse()
-      }
+      this.getScDetail()
     },
     methods: {
-      getMyCourse () {
-        let that = this
-        Indicator.open({
-          text: '加载中…',
-          spinnerType: 'snake'
-        })
-        let data = {
-          success: function (list) {
-            Indicator.close()
-            //that.$store.commit('setMyCourses', list)
-            // 如果当前的访问的课程没有开通的话 提示要开通console.log(that.myCourses)
-            if (!that.myCourses || !that.myCourses[that.$route.params.id]) {
-              that.$router.push({path: '/buy/' + that.$route.params.id, query: {redirect: that.$route.path}})
-            } else {
-              that.getScDetail()
-            }
-          },
-          error: function (error) {
-            Indicator.close()
-            if (!error) {
-              error = '获取我的课程列表失败'
-            }
-            let instance = Toast({
-              message: error,
-              iconClass: 'mint-toast-icon mintui mintui-field-warning'
-            })
-            setTimeout(() => {
-              instance.close()
-            }, 1500)
-          }
-        }
-        this.$store.dispatch('getMyCourse', data)
-      },
       getScDetail () {
         if (this.courseInfo.length > 0) {
           return
@@ -113,6 +81,9 @@
           }
         }
         this.$store.dispatch('getCourseInfoById', data)
+      },
+      goDetail (type, id) {
+        this.$router.push({path: '/tkDetail/' + id})
       }
     },
     computed: {
@@ -223,5 +194,9 @@
       height 50px
       line-height 50px
       text-align center
-      background #f1f1f1
+      .tk
+        background #3bb4f2
+        color #fff
+      .op
+        background #f1f1f1
 </style>

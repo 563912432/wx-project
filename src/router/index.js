@@ -244,9 +244,14 @@ export default new Router({
       component: require('@/components/newsDetail')
     },
     {
-      path: '/sc/:id',
-      name: 'scDetail',
-      component: require('@/components/scDetail')
+      path: '/tkIntro/:id',
+      name: 'tkIntro',
+      component: require('@/components/tkIntro')
+    },
+    {
+      path: '/videoIntro/:id',
+      name: 'videoIntro',
+      component: require('@/components/videoIntro')
     }
   ]
 })

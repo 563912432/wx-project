@@ -48,7 +48,7 @@
     },
     methods: {
       showVideo (index) {
-        this.$router.push({path: '/video/' + index})
+        this.$router.push({path: '/videoIntro/' + index})
       },
       getList () {
         Indicator.open({
