@@ -88,6 +88,8 @@ const store = new Vuex.Store({
     askInfo: [],
     // 是否开通答疑
     isAsk: false,
+    // 选择的课程是否是图书配送版题库[默认不是]
+    isBuyBookToSend: false,
     // 提问内容
     askContent: '',
     // 是否勾选答疑
@@ -160,6 +162,9 @@ const store = new Vuex.Store({
     },
     isAsk (state) {
       return state.isAsk
+    },
+    isBuyBookToSend (state) {
+      return state.isBuyBookToSend
     },
     isCheckAsk (state) {
       return state.isCheckAsk
@@ -245,6 +250,9 @@ const store = new Vuex.Store({
     },
     setIsCheckAsk (state, data) {
       state.isCheckAsk = data
+    },
+    setIsBuyBookToSend (state, data) {
+      state.isBuyBookToSend = data
     }
   },
   actions: {
@@ -615,6 +623,20 @@ const store = new Vuex.Store({
     // 提交答疑
     submitAsk ({commit, state}, data) {
       Vue.http.post(state.host + 'Api/Ask/submitAsk', data.params, {
+        timeout: 5000,
+        emulateJSON: true
+      }).then(response => {
+        data.callback(response.data)
+      }).catch((response) => {
+        console.log(response)
+      })
+    },
+    // 获取是否是图书配送版题库
+    isBuyBookToSend ({commit, state}, data) {
+      if (!state.userInfo || !state.userInfo.id) {
+        return
+      }
+      Vue.http.post(state.host + 'Api/MyCourse/isBuyToSend', data.params, {
         timeout: 5000,
         emulateJSON: true
       }).then(response => {
