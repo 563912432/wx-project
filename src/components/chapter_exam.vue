@@ -95,7 +95,7 @@
       <span v-if="hasAsk" @click="ask"><i class="icon iconfont icon-dayi"></i>提问</span>
     </div>
     <!--答题卡-->
-    <card v-if="exam" :exam="exam" :exam_index="exam_index" popup-transition="popup-fade"></card>
+    <card v-if="exam" :exam="dtk_exam" :show_percent="show_percent" :exam_index="exam_index" popup-transition="popup-fade"></card>
     <!--题目解析-->
     <examparse v-if="+curr.type !== typeList.material &&
                       +curr.type !== typeList.zh &&
@@ -161,7 +161,9 @@
         random: 0,
         time: null,
         type: 1,
+        show_percent: 100,
         exam: [],
+        dtk_exam: [],
         exam_length: 0,
         visible: false,
         curr: {
@@ -245,17 +247,31 @@
                     that.$store.commit('setCurrentPaperInfo', returnData.record.paperInfo)
                   }
                 }
-                that.exam = returnData.allExamInfo
-                that.exam_length = returnData.allExamInfo.length
+                that.dtk_exam = returnData.allExamInfo
                 // 判断是否是图书配送版，是的话
                 let isBuyBookToSend = that.$store.state.isBuyBookToSend
                 if (isBuyBookToSend) {
-                  // 是 取40%
+                  that.show_percent = 40
+                  let tmp = {}
+                  for (let i in that.dtk_exam) {
+                    if (typeof that.dtk_exam[i] === 'object') {
+                      if (!tmp[that.dtk_exam[i].type]) {
+                        tmp[that.dtk_exam[i].type] = []
+                      }
+                      tmp[that.dtk_exam[i].type].push(that.dtk_exam[i])
+                    }
+                  }
+                  for (let i in tmp) {
+                    // 取40%
+                    let limit = Math.ceil(that.show_percent * tmp[i].length / 100)
+                    let tmpsub = tmp[i].slice(0, limit)
+                    that.exam = that.exam.concat(tmpsub)
+                  }
                 } else {
                   // 取全部
-                  // 测试取40%
-                  console.log(that.exam)
+                  that.exam = returnData.allExamInfo
                 }
+                that.exam_length = that.exam.length
                 break
               case -1:
                 instance = Toast({

@@ -12,7 +12,10 @@
         <div class="list-item" v-for="(item, key, index) in allExam">
           <div class="exam-type">{{item[0].type_name ? item[0].type_name.name : '未知题型'}}</div>
           <div class="exam-list">
-            <span v-for="(exam, i) in item" @click="goExam(exam.index)" :class="exam.done ? 'done' : ''">{{i+1}}</span>
+            <template v-for="(exam, i) in item">
+              <span v-if="exam.disable" @click="warning('开通完整版题库后查看！')" class="disable">{{i+1}}</span>
+              <span v-else @click="goExam(exam.index)" :class="exam.done ? 'done' : ''">{{i+1}}</span>
+            </template>
           </div>
         </div>
       </div>
@@ -21,7 +24,7 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import {Popup} from 'mint-ui'
+  import {Toast, Popup} from 'mint-ui'
   export default {
     name: 'card',
     components: {
@@ -33,6 +36,9 @@
       },
       exam_index: {
         type: Number
+      },
+      show_percent: {
+        default: 100
       }
     },
     data () {
@@ -57,6 +63,17 @@
       }
     },
     methods: {
+      warning (info) {
+        let instance = null
+        instance = Toast({
+          message: info,
+          iconClass: 'mint-toast-icon mintui mintui-field-warning',
+          duration: 1500
+        })
+        setTimeout(function () {
+          instance.close()
+        }, 1500)
+      },
       setExam () {
         let tmp = {}
         for (let i in this.exam) {
@@ -75,6 +92,20 @@
             }
           }
         }
+        let index = 0
+        for (let i in tmp) {
+          let limit = Math.ceil(this.show_percent * tmp[i].length / 100)
+          for (let j in tmp[i]) {
+            if (j < limit) {
+              tmp[i][j]['disable'] = false
+              tmp[i][j]['index'] = index
+              index++
+            } else {
+              tmp[i][j]['disable'] = true
+            }
+          }
+        }
+        console.dir(tmp)
         this.allExam = tmp
       },
       setVisible () {
@@ -157,5 +188,8 @@
             align-items center
           .done
             background #66ccff
+            color #fff
+          .disable
+            background #aaa
             color #fff
 </style>
