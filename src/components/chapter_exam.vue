@@ -5,7 +5,7 @@
         <i class="icon iconfont icon-fanhui1"></i>
       </div>
       <div class="title">
-        <span>{{curr.type_name ? curr.type_name.name : ''}}（{{exam_index+1}}/{{exam_length}}）</span>
+        <span>{{curr.type_name ? curr.type_name.name : ''}}（{{exam_index+1}}/{{dtk_exam_length}}）</span>
         <small>考试进行中…</small>
       </div>
       <div class="right" @click="doWell"
@@ -165,6 +165,7 @@
         exam: [],
         dtk_exam: [],
         exam_length: 0,
+        dtk_exam_length: 0,
         visible: false,
         curr: {
           type: 0
@@ -248,6 +249,7 @@
                   }
                 }
                 that.dtk_exam = returnData.allExamInfo
+                that.dtk_exam_length = that.dtk_exam.length
                 // 判断是否是图书配送版，是的话
                 let isBuyBookToSend = that.$store.state.isBuyBookToSend
                 if (isBuyBookToSend) {
@@ -322,14 +324,14 @@
         if ((this.exam_index + 1) === this.exam_length) {
           if (this.subExamInfo.len !== 0 && (this.subExamInfo.len - 1 === this.subExamInfo.index)) {
             Toast({
-              message: '已经是最后一题',
+              message: (this.dtk_exam_length === this.exam_length ? '已经是最后一题' : '开通完整版题库即可查看'),
               duration: 1500
             })
             return
           }
           if (this.subExamInfo.len === 0) {
             Toast({
-              message: '已经是最后一题',
+              message: (this.dtk_exam_length === this.exam_length ? '已经是最后一题' : '开通完整版题库即可查看'),
               duration: 1500
             })
             return
