@@ -5,7 +5,7 @@
         <i class="icon iconfont icon-fanhui1"></i>
       </div>
       <div class="title">
-        <span>{{curr.type_name ? curr.type_name.name : ''}}（{{exam_index+1}}/{{dtk_exam_length}}）</span>
+        <span>{{curr.type_name ? curr.type_name.name : ''}}（{{exam_index+1}}/{{exam_length}}）</span>
         <small>考试进行中…</small>
       </div>
       <div class="right" @click="doWell"
@@ -253,7 +253,7 @@
                 // 判断是否是图书配送版，是的话
                 let isBuyBookToSend = that.$store.state.isBuyBookToSend
                 if (isBuyBookToSend) {
-                  that.show_percent = 40
+                  that.show_percent = 60
                   let tmp = {}
                   for (let i in that.dtk_exam) {
                     if (typeof that.dtk_exam[i] === 'object') {
