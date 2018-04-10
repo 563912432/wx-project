@@ -91,6 +91,7 @@
     background #f1f1f1
   .swiper
     flex 0 0 200px
+    height 200px
     overflow auto
   .recommend
     flex 1
