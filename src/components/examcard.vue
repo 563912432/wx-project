@@ -15,7 +15,7 @@
             <template v-for="(exam, i) in item">
               <!--<span v-if="exam.disable" @click="warning('开通完整版题库后查看！')" class="disable">{{i+1}}</span>-->
               <!--<span v-else @click="goExam(exam.index)" :class="exam.done ? 'done' : ''">{{i+1}}</span>-->
-              <span v-if="exam.disable !== false" @click="goExam(exam.index)" :class="exam.done ? 'done' : ''">{{i+1}}</span>
+              <span v-if="exam.disable == false" @click="goExam(exam.index)" :class="exam.done ? 'done' : ''">{{i+1}}</span>
             </template>
           </div>
         </div>
