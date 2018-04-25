@@ -10,7 +10,7 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import { Indicator, Toast, Popup } from 'mint-ui'
+  import { Popup } from 'mint-ui'
   import polyvObject from 'polyvObject'
   export default {
     name: 'parseVideo',
