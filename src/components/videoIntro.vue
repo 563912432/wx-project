@@ -120,10 +120,6 @@
         let playerHtml = document.getElementById('player')
         playerHtml.innerHTML = ''
 
-        Indicator.open({
-          text: '加载中…',
-          spinnerType: 'snake'
-        })
         let that = this
         // 获取视频播放签名
         this.$http.get(this.$store.state.host + 'Api/Video/getPolySign/code/' + code, {timeout: 5000}).then(response => {
@@ -138,20 +134,10 @@
             })
             that.player.j2s_resumeVideo()
           } else {
-            Indicator.close()
-            Toast({
-              message: response.body.info,
-              iconClass: 'mint-toast-icon mintui mintui-field-warning',
-              duration: 1500
-            })
+            console.log(response.body.info)
           }
         }).catch(() => {
-          Indicator.close()
-          Toast({
-            message: '连接超时',
-            iconClass: 'mint-toast-icon mintui mintui-field-warning',
-            duration: 1500
-          })
+          console.log('连接超时')
         })
       },
       getVideoChapterList () {
