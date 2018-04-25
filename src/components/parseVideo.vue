@@ -10,7 +10,7 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import { Popup } from 'mint-ui'
+  import { Indicator, Toast, Popup } from 'mint-ui'
   import polyvObject from 'polyvObject'
   export default {
     name: 'parseVideo',
@@ -49,18 +49,45 @@
         this.$store.commit('setParseVideo', false)
       },
       initPlayer () {
-        let videoHeight = 200
-        let height = window.screen.height
-        let viewHeight = window.innerHeight
-        let titleHeight = height - viewHeight
-        let marginTop = (height - videoHeight) / 2 - titleHeight
-        document.getElementById('showVideo').style.marginTop = marginTop + 'px'
-        this.player = polyvObject('#showVideo').videoPlayer({
-          'width': '100%',
-          'height': videoHeight,
-          'vid': this.videoCode
+        Indicator.open({
+          text: '加载中…',
+          spinnerType: 'snake'
         })
-        this.player.j2s_resumeVideo()
+        let that = this
+        // 获取视频播放签名
+        this.$http.get(this.$store.state.state.host + 'Api/Video/getPolySign/code/' + this.videoCode, {timeout: 5000}).then(response => {
+          if (response.ok && response.body.status === 1) {
+            let polySign = JSON.parse(response.body.info)
+            let videoHeight = 200
+            let height = window.screen.height
+            let viewHeight = window.innerHeight
+            let titleHeight = height - viewHeight
+            let marginTop = (height - videoHeight) / 2 - titleHeight
+            document.getElementById('showVideo').style.marginTop = marginTop + 'px'
+            that.player = polyvObject('#showVideo').videoPlayer({
+              'width': '100%',
+              'height': videoHeight,
+              'vid': that.videoCode,
+              'ts': polySign.ts,
+              'sign': polySign.sign
+            })
+            that.player.j2s_resumeVideo()
+          } else {
+            Indicator.close()
+            Toast({
+              message: response.body.info,
+              iconClass: 'mint-toast-icon mintui mintui-field-warning',
+              duration: 1500
+            })
+          }
+        }).catch(() => {
+          Indicator.close()
+          Toast({
+            message: '连接超时',
+            iconClass: 'mint-toast-icon mintui mintui-field-warning',
+            duration: 1500
+          })
+        })
       }
     }
   }

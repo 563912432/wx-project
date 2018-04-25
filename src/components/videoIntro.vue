@@ -119,12 +119,40 @@
         let code = event.srcElement.attributes.code.value
         let playerHtml = document.getElementById('player')
         playerHtml.innerHTML = ''
-        this.player = polyvObject('#player').videoPlayer({
-          'width': '100%',
-          'height': '200',
-          'vid': code
+
+        Indicator.open({
+          text: '加载中…',
+          spinnerType: 'snake'
         })
-        this.player.j2s_resumeVideo()
+        let that = this
+        // 获取视频播放签名
+        this.$http.get(this.$store.state.host + 'Api/Video/getPolySign/code/' + code, {timeout: 5000}).then(response => {
+          if (response.ok && response.body.status === 1) {
+            let polySign = JSON.parse(response.body.info)
+            that.player = polyvObject('#player').videoPlayer({
+              'width': '100%',
+              'height': '200',
+              'vid': code,
+              'ts': polySign.ts,
+              'sign': polySign.sign
+            })
+            that.player.j2s_resumeVideo()
+          } else {
+            Indicator.close()
+            Toast({
+              message: response.body.info,
+              iconClass: 'mint-toast-icon mintui mintui-field-warning',
+              duration: 1500
+            })
+          }
+        }).catch(() => {
+          Indicator.close()
+          Toast({
+            message: '连接超时',
+            iconClass: 'mint-toast-icon mintui mintui-field-warning',
+            duration: 1500
+          })
+        })
       },
       getVideoChapterList () {
         let that = this
