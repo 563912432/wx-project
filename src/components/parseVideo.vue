@@ -49,18 +49,31 @@
         this.$store.commit('setParseVideo', false)
       },
       initPlayer () {
-        let videoHeight = 200
-        let height = window.screen.height
-        let viewHeight = window.innerHeight
-        let titleHeight = height - viewHeight
-        let marginTop = (height - videoHeight) / 2 - titleHeight
-        document.getElementById('showVideo').style.marginTop = marginTop + 'px'
-        this.player = polyvObject('#showVideo').videoPlayer({
-          'width': '100%',
-          'height': videoHeight,
-          'vid': this.videoCode
+        let that = this
+        // 获取视频播放签名
+        this.$http.get(this.$store.state.state.host + 'Api/Video/getPolySign/code/' + this.videoCode, {timeout: 5000}).then(response => {
+          if (response.ok && response.body.status === 1) {
+            let polySign = JSON.parse(response.body.info)
+            let videoHeight = 200
+            let height = window.screen.height
+            let viewHeight = window.innerHeight
+            let titleHeight = height - viewHeight
+            let marginTop = (height - videoHeight) / 2 - titleHeight
+            document.getElementById('showVideo').style.marginTop = marginTop + 'px'
+            that.player = polyvObject('#showVideo').videoPlayer({
+              'width': '100%',
+              'height': videoHeight,
+              'vid': that.videoCode,
+              'ts': polySign.ts,
+              'sign': polySign.sign
+            })
+            that.player.j2s_resumeVideo()
+          } else {
+            console.log(response.body.info)
+          }
+        }).catch(() => {
+          console.log('连接超时')
         })
-        this.player.j2s_resumeVideo()
       }
     }
   }
