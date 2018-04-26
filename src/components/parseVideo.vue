@@ -51,7 +51,7 @@
       initPlayer () {
         let that = this
         // 获取视频播放签名
-        this.$http.get(this.$store.state.state.host + 'Api/Video/getPolySign/code/' + this.videoCode, {timeout: 5000}).then(response => {
+        this.$http.get(this.$store.state.host + 'Api/Video/getPolySign/code/' + this.videoCode, {timeout: 5000}).then(response => {
           if (response.ok && response.body.status === 1) {
             let polySign = JSON.parse(response.body.info)
             let videoHeight = 200
