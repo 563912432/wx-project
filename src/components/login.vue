@@ -122,7 +122,7 @@
         }
       },
       checkTel (tel) {
-        if (/1[345678](\d){9}/g.exec(tel)) {
+        if (/1[3456789](\d){9}/g.exec(tel)) {
           this.validate.tel = 'success'
         } else {
           this.validate.tel = 'error'
